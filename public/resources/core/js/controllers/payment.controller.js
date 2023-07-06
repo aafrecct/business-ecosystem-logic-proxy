@@ -60,22 +60,11 @@ angular.module('app').controller('PaymentController', [
                 vm.state = ERROR;
                 vm.message = 'It has not been provided any ordering reference, so your payment cannot be executed';
             } else {
-                var action = params.action;
-
-                // If the action is cancel of just invalid the payment is canceled
-                if (action !== 'accept' || (action === 'accept' && (!params.paymentId || !params.PayerID))) {
-                    action = 'cancel';
-                }
-
-                var data = {
-                    action: action,
-                    reference: ref
-                };
-
-                if (action === 'accept') {
-                    data.paymentId = params.paymentId;
-                    data.payerId = params.PayerID;
-                }
+                
+                var data = params;
+                data.confirm_action = params.action;
+                data.action = "confirm";
+                data.reference = ref;
 
                 // Check if the acquisition has been done by an organization
                 if (!!params.organization) {
